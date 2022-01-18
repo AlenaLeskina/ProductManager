@@ -1,11 +1,14 @@
 package ru.netology.domain;
 
 import org.junit.jupiter.api.Test;
+import ru.netology.manager.ProductManager;
+import ru.netology.repository.ProductRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductManagerTest {
-    private final ProductManager productManager = new ProductManager();
+    ProductRepository repository = new ProductRepository();
+    private final ProductManager productManager = new ProductManager(repository);
     private final Book javaBook = new Book(1, "SteveBook", 1000, "Jobs");
     private final Book javaCode = new Book(2, "javaCode", 1000, "CodeSteve");
     private final Smartphone iphoneX = new Smartphone(1, "SteveIphoneX", 75000, "Jobs");
@@ -20,7 +23,7 @@ class ProductManagerTest {
     }
 
     @Test
-    public void shouldSearchByTxt() {
+    public void shouldSearchByBookNameAndSmartphoneName() {
         productManager.add(iphoneX);
         productManager.add(javaBook);
         Product[] expected = new Product[]{iphoneX, javaBook};
@@ -29,7 +32,7 @@ class ProductManagerTest {
     }
 
     @Test
-    public void shouldSearchByTxt3() {
+    public void shouldItemsNotFound() {
         productManager.add(javaBook);
         productManager.add(iphoneX);
         Product[] expected = new Product[]{};
@@ -38,7 +41,7 @@ class ProductManagerTest {
     }
 
     @Test
-    public void shouldSearchByTxt4() {
+    public void shouldSearchByCodeAuthorAndSmartphoneManufacturer() {
         productManager.add(javaCode);
         productManager.add(iphone12);
         Product[] expected = new Product[]{javaCode, iphone12};
